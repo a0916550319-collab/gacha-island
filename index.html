@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="扭蛋小島">
+<meta name="theme-color" content="#48bb78">
+<title>扭蛋小島</title>
+<style>
+:root{--bg:#f0f4f8;--card:#fff;--tx:#2d3748;--mut:#8a97a8;--ac:#48bb78;--ac2:#ecc94b;--bd:#e2e8f0;--s1:#90cdf4;--s2:#63b3ed;--land:#68d391;--sh:0 4px 8px rgba(0,0,0,.06);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a202c;--card:#2d3748;--tx:#edf2f7;--mut:#8a97a8;--bd:#4a5568;--s1:#2b6cb0;--s2:#2c5282;--land:#2f855a}}
+:root[data-theme="dark"]{--bg:#1a202c;--card:#2d3748;--tx:#edf2f7;--mut:#8a97a8;--bd:#4a5568;--s1:#2b6cb0;--s2:#2c5282;--land:#2f855a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--bg);color:var(--tx);font-family:-apple-system,"PingFang TC","Noto Sans TC",sans-serif;padding-bottom:84px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--card);z-index:10}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:11;background:var(--card);border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;padding:12px 16px}
+h1{font-size:20px;font-weight:800}
+.hr{display:flex;gap:6px;align-items:center}
+.coin{border:2px solid var(--ac2);border-radius:20px;padding:5px 12px;font-weight:800}
+.ib{background:none;border:0;font-size:20px;padding:4px 6px}
+main{padding:14px;max-width:560px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:var(--sh)}
+.hero{background:linear-gradient(135deg,#48bb78,#2c9a8f);color:#fff;border-radius:18px;padding:16px;margin-bottom:10px}
+.hero h2{font-size:22px;margin:2px 0 10px}.sub2{font-size:12px;opacity:.9}
+.bar{background:rgba(0,0,0,.25);border-radius:10px;height:12px;padding:2px;margin-bottom:6px}.bar i{display:block;height:100%;background:#fbd34d;border-radius:8px;transition:width .5s}
+.hint{font-size:12px;color:var(--mut);margin:0 4px 10px}
+.task{display:flex;gap:12px;align-items:flex-start}
+.chk{width:36px;height:36px;border-radius:50%;border:2px solid var(--bd);background:var(--bg);color:transparent;font-size:19px;font-weight:700;flex:none;transition:transform .2s}
+.done .chk{background:var(--ac);border-color:var(--ac);color:#fff;transform:scale(1.1)}
+.done .nm{text-decoration:line-through;color:var(--mut)}
+.nm{flex:1;font-weight:700;min-width:0;word-break:break-all}
+.sub{font-size:12px;color:var(--mut);margin-top:4px;font-weight:400}
+.pill{font-size:12px;background:var(--bd);border-radius:8px;padding:2px 8px;margin-left:6px;font-weight:700}
+input,select{font:inherit;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:11px;width:100%;outline:none}
+input:focus,select:focus{border-color:var(--ac)}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:12px;padding:13px;font:inherit;font-weight:800;width:100%;box-shadow:0 4px 0 #2f855a}
+.btn:active{transform:translateY(4px);box-shadow:none}.btn:disabled{opacity:.5}
+.row{display:flex;gap:8px;margin-top:8px}.mini{width:90px;flex:none;text-align:center}
+a.lk{color:var(--ac)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--card);border-top:1px solid var(--bd);padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+nav button{flex:1;background:none;border:0;padding:8px 0;font-size:11px;color:var(--mut);font-weight:700}
+nav button span{display:block;font-size:20px}nav button.on{color:var(--ac)}
+.island{position:relative;height:400px;border-radius:24px;overflow:hidden;background:linear-gradient(var(--s1),var(--s2))}
+.land{position:absolute;left:9%;right:9%;top:14%;bottom:14%;background:var(--land);border-radius:45% 55% 40% 60%/50% 45% 55% 50%;border:5px solid rgba(255,255,255,.3)}
+.an{position:absolute;font-size:32px;transition:left 4s ease-in-out,top 4s ease-in-out;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25));user-select:none;z-index:2}
+.an em{display:inline-block;font-style:normal;transition:transform .3s}
+.bub{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);white-space:nowrap;background:var(--card);color:var(--tx);font-size:11px;font-weight:700;padding:5px 9px;border-radius:12px;box-shadow:var(--sh);z-index:5}
+.cap{text-align:center;font-size:96px;margin:14px 0}.cap.sk{animation:sk .8s}
+@keyframes sk{10%,90%{transform:rotate(-5deg)}30%,70%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}20%,60%,80%{transform:rotate(8deg)}}
+.res{text-align:center;min-height:130px}.res .big{font-size:64px;animation:pop .5s}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.15)}100%{transform:scale(1)}}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gi{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:10px 4px;text-align:center;font-size:12px;position:relative}
+.gi.lock{opacity:.45;filter:grayscale(1)}.gi b{display:block;font-size:34px;font-weight:400}
+.cnt{position:absolute;top:4px;right:6px;font-size:11px;color:var(--mut)}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:#1a202c;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;opacity:0;transition:opacity .25s;pointer-events:none;z-index:50;max-width:90%;text-align:center}
+.toast.on{opacity:1}
+.hid{display:none}h3{margin:16px 0 8px;font-size:16px}
+.del{background:none;border:0;font-size:18px;padding:4px 8px}
+.sp{position:fixed;pointer-events:none;z-index:60;font-style:normal;animation:fl .9s ease-out forwards}
+@keyframes fl{to{transform:translate(var(--dx),var(--dy));opacity:0}}
+</style>
+</head>
+<body>
+<header>
+<h1>🐾 扭蛋小島</h1>
+<div class="hr"><div class="coin" id="coin">🪙 0/20</div><button class="ib" id="bs">🔊</button><button class="ib" id="bt">🌓</button></div>
+</header>
+<main>
+<section id="v-task"></section><section id="v-gacha" class="hid"></section><section id="v-island" class="hid"></section><section id="v-book" class="hid"></section><section id="v-design" class="hid"></section>
+</main>
+<nav id="nav">
+<button data-v="task" class="on"><span>📋</span>任務</button><button data-v="gacha"><span>🎰</span>扭蛋</button><button data-v="island"><span>🏝️</span>小島</button><button data-v="book"><span>🏆</span>圖鑑</button><button data-v="design"><span>✏️</span>設計</button>
+</nav>
+<div class="toast" id="toast"></div>
+<script>
+const KEY='gachaIsland.v3',MAX=20,COST=5;
+const Q=['今天也有認真努力呢！','曬太陽就是最棒的任務～','蹦蹦跳跳，多巴胺爆棚！','給自己一點獎勵吧！','嘰嘰喳喳，你太棒了！','呱～休息也是一種前進。','用技巧騙過大腦才是高明！','心平氣和，抽卡必中！','夜深了，別忘了儲存快樂。','一步一步，慢慢來沒關係。','奇蹟只會降臨在懂得獎勵自己的人身上！','歐氣爆發！你是最讚的！'];
+const BASE=[['🐱','小貓',0],['🐶','小狗',0],['🐰','兔兔',0],['🐹','倉鼠',0],['🐥','小雞',0],['🐸','青蛙',0],['🦊','狐狸',1],['🐼','熊貓',1],['🦉','貓頭鷹',1],['🐧','企鵝',1],['🦄','獨角獸',2],['🐉','小龍',2]].map((a,i)=>({e:a[0],n:a[1],r:a[2],id:'b'+i,q:Q[i]}));
+const RN=['普通','稀有','傳說'];
+const TY={check:'打勾',minutes:'時長（分鐘）',count:'次數',km:'距離（公里）',photo:'拍照',file:'上傳檔案'};
+const NUM=['minutes','count','km'];
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+let S,cur='task',tm,busy=false,AC;
+function def(){return{coins:3,day:today(),owned:[],custom:[],sound:true,theme:'',tasks:[
+{id:'t1',name:'喝水 2000cc',type:'check',target:1,reward:1,app:'',url:'',done:false,val:0,paid:''},
+{id:'t2',name:'學英文',type:'minutes',target:15,reward:2,app:'多鄰國',url:'',done:false,val:0,paid:''},
+{id:'t3',name:'運動',type:'minutes',target:30,reward:2,app:'健康',url:'',done:false,val:0,paid:''}]}}
+function load(){let r=null;for(const k of [KEY,'gachaIsland.v2','gachaIsland.v1']){try{const v=localStorage.getItem(k);if(v){r=JSON.parse(v);break}}catch(e){}}
+S=Object.assign(def(),r||{});roll(true)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function roll(quiet){if(S.day!==today()){S.tasks.forEach(t=>{t.done=false;t.val=0});S.day=today();save();if(!quiet)render()}}
+const pool=()=>BASE.concat(S.custom);
+const byId=id=>pool().find(a=>a.id===id);
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.k);toast.k=setTimeout(()=>t.classList.remove('on'),2000)}
+function tone(seq,type,len,vol){if(S.sound===false)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();seq.forEach((f,i)=>{const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+i*len;o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(vol||.15,t);g.gain.exponentialRampToValueAtTime(.001,t+len*1.6);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+len*1.7)})}catch(e){}}
+function spark(x,y){x=x||innerWidth/2;y=y||innerHeight/2;for(let i=0;i<10;i++){const s=document.createElement('i');s.className='sp';s.textContent=['✨','⭐','💛','🌟'][i%4];s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',(Math.random()-.5)*170+'px');s.style.setProperty('--dy',(-30-Math.random()*110)+'px');document.body.appendChild(s);setTimeout(()=>s.remove(),900)}}
+function setDone(t,v,ev){
+ t.done=v;
+ if(v){
+  if(ev)spark(ev.clientX,ev.clientY);
+  if(t.paid!==today()){t.paid=today();const g=Math.min(t.reward,MAX-S.coins);S.coins+=g;tone([988,1319],'triangle',.08,.2);toast(g>0?'+'+g+' 🪙 做得好！':'代幣已滿，快去扭蛋 🎰')}
+ }
+ save();render();
+}
+function vTask(){
+ const n=S.tasks.filter(t=>t.done).length,p=S.tasks.length?Math.round(n/S.tasks.length*100):0;
+ let h='<div class="hero"><div class="sub2">今日進度</div><h2>'+n+' / '+S.tasks.length+' 完成</h2><div class="bar"><i style="width:'+p+'%"></i></div><div class="sub2">'+(p===100&&n?'🎉 全部完成！去扭蛋吧':'每個勾勾都是一顆糖')+'</div></div><div class="hint">這裡沒有審查：不拍照、不輸入，直接按勾也算數。代幣最多存 '+MAX+' 個，任務數量不限。</div>';
+ S.tasks.forEach(t=>{
+  let ex='';
+  if(NUM.includes(t.type))ex='<div class="row"><input type="number" min="0" step="any" inputmode="decimal" value="'+(t.val||'')+'" placeholder="輸入進度（目標 '+t.target+'）" data-val="'+t.id+'"></div>';
+  else if(t.type==='photo'||t.type==='file')ex='<div class="row"><input type="file" '+(t.type==='photo'?'accept="image/*"':'')+' data-file="'+t.id+'"></div>';
+  const lk=t.app?'<div class="sub">📱 綁定：'+esc(t.app)+(/^https?:\/\//.test(t.url)?' <a class="lk" href="'+esc(t.url)+'" target="_blank" rel="noopener">開啟</a>':'')+'</div>':'';
+  h+='<div class="card'+(t.done?' done':'')+'"><div class="task"><button class="chk" data-chk="'+t.id+'">✓</button><div class="nm">'+esc(t.name)+'<div class="sub">'+TY[t.type]+(NUM.includes(t.type)?' 目標 '+t.target:'')+'　+'+t.reward+' 🪙</div>'+lk+'</div></div>'+ex+'</div>';
+ });
+ if(!S.tasks.length)h+='<div class="card sub">還沒有任務，到「設計」新增一個吧。</div>';
+ const el=$('v-task');el.innerHTML=h;
+ el.onclick=e=>{const b=e.target.closest('[data-chk]');if(b){const t=S.tasks.find(x=>x.id===b.dataset.chk);setDone(t,!t.done,e)}};
+ el.onchange=e=>{const i=e.target;
+  if(i.dataset.val){const t=S.tasks.find(x=>x.id===i.dataset.val);t.val=+i.value||0;if(t.val>=t.target&&!t.done)setDone(t,true);else save()}
+  else if(i.dataset.file&&i.files.length){const t=S.tasks.find(x=>x.id===i.dataset.file);if(!t.done)setDone(t,true)}};
+}
+function vGacha(){
+ $('v-gacha').innerHTML='<div class="card" style="text-align:center"><div class="cap" id="cap">🥚</div><div class="res" id="res"></div><button class="btn" id="spin">扭一次（'+COST+' 🪙）</button><div class="sub" style="margin-top:12px">普通 70%　稀有 25%　傳說 5%　｜　蛋池共 '+pool().length+' 種</div></div>';
+ $('spin').onclick=spin;
+}
+function spin(){
+ if(busy)return;
+ if(S.coins<COST){toast('代幣不夠，先去完成任務 📋');return}
+ busy=true;S.coins-=COST;
+ const x=Math.random()*100,r=x<70?0:x<95?1:2;
+ let p=pool().filter(a=>a.r===r);if(!p.length)p=pool();
+ const a=p[Math.floor(Math.random()*p.length)],isNew=!S.owned.includes(a.id);
+ S.owned.push(a.id);save();upd();tone([400,800],'sine',.1,.25);
+ const cap=$('cap'),res=$('res');res.innerHTML='';cap.classList.remove('sk');void cap.offsetWidth;cap.classList.add('sk');
+ setTimeout(()=>{
+  busy=false;if(cur!=='gacha')return;
+  res.innerHTML='<div class="big">'+a.e+'</div><div style="font-size:19px;font-weight:800;margin-top:6px">'+esc(a.n)+'<span class="pill">'+RN[a.r]+'</span>'+(isNew?'<span class="pill" style="background:#f56565;color:#fff">NEW</span>':'')+'</div><div class="sub">「'+esc(a.q)+'」</div>';
+  tone(a.r===2?[523,659,784,1047]:[440,554,659],a.r===2?'sawtooth':'sine',.12,.1);spark();
+ },800);
+}
+function vIsland(){
+ const el=$('v-island'),list=S.owned.slice(-30);
+ el.innerHTML='<div class="island"><div class="land"></div>'+list.map(id=>{const a=byId(id);return a?'<span class="an" data-id="'+a.id+'"><em>'+a.e+'</em></span>':''}).join('')+'</div><div class="card" style="margin-top:12px;text-align:center">島上共有 <b>'+S.owned.length+'</b> 隻動物'+(S.owned.length?'，點牠們聽聽說什麼':'，去扭蛋請第一隻上島吧')+'</div>';
+ const as=[...el.querySelectorAll('.an')];
+ const mv=()=>as.forEach(s=>{s.style.transitionDuration=(3+Math.random()*3)+'s';s.style.left=(14+Math.random()*64)+'%';s.style.top=(20+Math.random()*52)+'%';s.firstChild.style.transform=Math.random()>.5?'scaleX(-1)':''});
+ mv();clearInterval(tm);tm=setInterval(mv,4000);
+ el.onclick=e=>{const s=e.target.closest('.an');if(!s)return;const a=byId(s.dataset.id);if(!a)return;
+  el.querySelectorAll('.bub').forEach(b=>b.remove());
+  const b=document.createElement('b');b.className='bub';b.textContent=a.q;s.appendChild(b);setTimeout(()=>b.remove(),2200);
+  tone([400,800],'sine',.1,.2);spark(e.clientX,e.clientY)};
+}
+function vBook(){
+ const cnt={};S.owned.forEach(i=>cnt[i]=(cnt[i]||0)+1);
+ const P=pool(),u=P.filter(a=>cnt[a.id]).length,pc=Math.round(u/P.length*100);
+ $('v-book').innerHTML='<div class="card" style="display:flex;justify-content:space-between;align-items:center"><div><b>圖鑑收集度</b><div class="sub">解鎖更多夥伴</div></div><div style="text-align:right"><b style="font-size:22px;color:var(--ac)">'+pc+'%</b><div class="sub">'+u+' / '+P.length+'</div></div></div><div class="grid">'+P.map(a=>{const c=cnt[a.id];return '<div class="gi'+(c?'':' lock')+'">'+(c>1?'<span class="cnt">×'+c+'</span>':'')+'<b>'+(c?a.e:'❓')+'</b>'+(c?esc(a.n):'未解鎖')+'<div class="sub">'+RN[a.r]+'</div></div>'}).join('')+'</div>';
+}
+function vDesign(){
+ const el=$('v-design');
+ el.innerHTML='<h3>➕ 新增每日任務</h3><div class="card"><input id="tn" placeholder="任務名稱，例如：讀 10 頁書"><div class="row"><select id="tt">'+Object.entries(TY).map(([k,v])=>'<option value="'+k+'">'+v+'</option>').join('')+'</select><input id="tg" class="mini" type="number" min="1" placeholder="目標"></div><div class="row"><select id="tr"><option value="1">獎勵 1 🪙</option><option value="2">獎勵 2 🪙</option><option value="3">獎勵 3 🪙</option></select><input id="ta" placeholder="綁定 App（選填）"></div><input id="tu" placeholder="App 連結 https://…（選填）" style="margin-top:8px"><button class="btn" id="addT" style="margin-top:10px">新增任務</button></div>'+
+ '<h3>🎨 設計我的動物</h3><div class="card"><div class="row" style="margin-top:0"><input id="ae" class="mini" maxlength="4" placeholder="🐙"><input id="an" placeholder="動物名字"></div><div class="row"><select id="ar"><option value="0">普通</option><option value="1">稀有</option><option value="2">傳說</option></select></div><input id="aq" placeholder="牠的口頭禪（選填）" style="margin-top:8px"><button class="btn" id="addA" style="margin-top:10px">丟進扭蛋池</button></div>'+
+ '<h3>📦 管理</h3>'+S.tasks.map(t=>'<div class="card task" style="align-items:center"><div class="nm">'+esc(t.name)+'</div><button class="del" data-dt="'+t.id+'">🗑</button></div>').join('')+
+ S.custom.map(a=>'<div class="card task" style="align-items:center"><div class="nm">'+a.e+' '+esc(a.n)+'<span class="pill">'+RN[a.r]+'</span></div><button class="del" data-da="'+a.id+'">🗑</button></div>').join('');
+ $('addT').onclick=()=>{const n=$('tn').value.trim();if(!n){toast('先寫任務名稱');return}
+  S.tasks.push({id:'t'+Date.now(),name:n,type:$('tt').value,target:+$('tg').value||1,reward:+$('tr').value,app:$('ta').value.trim(),url:$('tu').value.trim(),done:false,val:0,paid:''});save();render();toast('任務已新增')};
+ $('addA').onclick=()=>{const e=$('ae').value.trim(),n=$('an').value.trim();if(!e||!n){toast('要有表情符號和名字');return}
+  S.custom.push({id:'c'+Date.now(),e:e,n:n,r:+$('ar').value,q:$('aq').value.trim()||'我是你設計的專屬動物！'});save();render();toast('已加入扭蛋池')};
+ el.onclick=e=>{const a=e.target.closest('[data-dt]'),b=e.target.closest('[data-da]');
+  if(a){S.tasks=S.tasks.filter(t=>t.id!==a.dataset.dt);save();render()}
+  if(b){const id=b.dataset.da;S.custom=S.custom.filter(x=>x.id!==id);S.owned=S.owned.filter(x=>x!==id);save();render()}};
+}
+function upd(){$('coin').textContent='🪙 '+S.coins+'/'+MAX;$('bs').textContent=S.sound===false?'🔇':'🔊'}
+function theme(){if(S.theme)document.documentElement.dataset.theme=S.theme}
+function render(){upd();({task:vTask,gacha:vGacha,island:vIsland,book:vBook,design:vDesign})[cur]()}
+$('bs').onclick=()=>{S.sound=S.sound===false;save();upd();tone([660],'sine',.1,.2)};
+$('bt').onclick=()=>{const d=S.theme?S.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;S.theme=d?'light':'dark';theme();save()};
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>{
+ cur=b.dataset.v;
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x===b));
+ ['task','gacha','island','book','design'].forEach(v=>$('v-'+v).classList.toggle('hid',v!==cur));
+ if(cur!=='island')clearInterval(tm);
+ render();window.scrollTo(0,0);
+});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)roll()});
+setInterval(roll,60000);
+load();theme();render();
+</script>
+</body>
+</html>
